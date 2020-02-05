@@ -24,7 +24,8 @@ class HDF5DatasetWriter:
 
         # open the HDF5 database for writing and create two datasets: one to store the images/feature and another to store class labels
         self.db = h5py.File(outputPath, 'w')
-        self.data = self.db.create_dataset('labels', (dims[0],), int)
+        self.data = self.db.create_dataset(dataKey, dims, dtype="float")
+        self.labels = self.db.create_dataset("labels", (dims[0],), dtype="int")
 
         # store the buffer size, then initizlize the buffer itself along with the index into the database
         self.bufSize = bufSize
@@ -42,22 +43,19 @@ class HDF5DatasetWriter:
         self.buffer['data'].extend(rows)
         self.buffer['labels'].extend(labels)
 
-        # check to see if the buffer needs to be flushed to disk
+        # if buffer exceeds set limits flush it
         if len(self.buffer['data']) >= self.bufSize:
             self.flush()
 
     """ write the buffers to disk then reset the buffer 
-    
-    If we think of our HDF5 dataset as a big NumPy array, then we need to keep track of the 
-    current index into the next available row where we can store data (without overwriting 
-    existing data) –
     """
     def flush(self):
         # determines the next available row in the matrix.
         i = self.idx + len(self.buffer['data'])
-        # apply NumPy array slicing to store the data and labels in the buffers.
+        # Write data to database
         self.data[self.idx:i] = self.buffer['data']
         self.labels[self.idx:i] = self.buffer['labels']
+        # store next available position in database in idx variable
         self.idx = i
         # resets the buffers.
         self.buffer = {'data': [], 'labels': []}
@@ -73,11 +71,11 @@ class HDF5DatasetWriter:
         labelSet[:] = classLabels
 
     """
-    Finally, our last function close will be used to write any data left in the buffers to
-     HDF5 as well as close the dataset:
+    write any data left in the buffers to HDF5 and as close the dataset:
     """
     def close(self):
-        # check to see if ther is any other entries in the buffer that need to be flushed to the disk
+        # check to see if ther is any other entries in the buffer that need to be 
+        # flushed to the disk
         if len(self.buffer['data']) > 0:
             self.flush()
 
