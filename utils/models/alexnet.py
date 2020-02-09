@@ -5,7 +5,7 @@ from keras.layers.normalization import BatchNormalization
 import numpy as np
 
 
-def alexnet():
+def alexnet(num_of_classes):
       # Instantiate an empty model
     model = Sequential()
 
@@ -64,6 +64,6 @@ def alexnet():
     model.add(Dropout(0.4))
 
     # Output Layer
-    model.add(Dense(17))
+    model.add(Dense(num_of_classes))
     model.add(Activation('softmax'))
     return model
