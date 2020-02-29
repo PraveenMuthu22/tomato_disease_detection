@@ -8,15 +8,15 @@ import os
 class TrainingMonitor(BaseLogger):
     """
     CONSTRUCTOR
-    fig_path : path to output plot
+    figure_path : path to output plot
     jsonPath : (optional) path to json file to serialize values
     startAt : Starting epoch when training resumed after stopped by ctrl + c
     """
-    def __init__(self, fig_path, json_path=None, start_at=0):
+    def __init__(self, figure_path, json_path=None, start_epoch=0):
         super(TrainingMonitor, self).__init__()
-        self.fig_path = fig_path
+        self.figure_path = figure_path
         self.json_path = json_path
-        self.start_at = start_at
+        self.start_epoch = start_epoch
 
     """
     This method called called once when training begines
@@ -42,10 +42,10 @@ class TrainingMonitor(BaseLogger):
                 self.H = json.loads(open(self.json_path).read())
 
                 # If starting epoch was provided
-                if self.start_at > 0:
+                if self.start_epoch > 0:
                     # Loop over the entries in H[] 
                     # entries that are past the starting epoch
-                    self.H = {k: self.H[k] for k in list(self.H.keys())[:self.start_at]} 
+                    self.H = {k: self.H[k] for k in list(self.H.keys())[:self.start_epoch]} 
 
     """
     Called each time an epoch ends
@@ -73,10 +73,10 @@ class TrainingMonitor(BaseLogger):
             N = np.arange(0, len(self.H["loss"]))
             plt.style.use("ggplot")
             plt.figure()
-            plt.plot(N, self.H["loss"], label="train_loss")
-            plt.plot(N, self.H["val_loss"], label="val_loss")
-            plt.plot(N, self.H["accuracy"], label="train_accuracy")
-            plt.plot(N, self.H["val_accuracy"], label="val_accuracy")
+            plt.plot(N, self.H["loss"], label="training loss")
+            plt.plot(N, self.H["val_loss"], label="validation loss")
+            plt.plot(N, self.H["accuracy"], label="training accuracy")
+            plt.plot(N, self.H["val_accuracy"], label="validation accuracy")
             plt.title("Training Loss and Accuracy [Epoch {}]".format(
                 len(self.H["loss"])))
             plt.xlabel("Epoch #")
@@ -84,5 +84,5 @@ class TrainingMonitor(BaseLogger):
             plt.legend()
 
             # save the figure
-            plt.savefig(self.fig_path)
+            plt.savefig(self.figure_path)
             plt.close()
