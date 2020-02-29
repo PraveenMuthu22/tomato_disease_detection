@@ -58,7 +58,7 @@ class TrainingMonitor(BaseLogger):
         for (k, v) in logs.items():
             # If H has a key with current metric retrive it, if not create one with value = []
             l = self.H.get(k, []) 
-            l.append(v)
+            l.append(float(v))
             self.H[k] = l
 
         # Check to see if the training history should be serialized to file
