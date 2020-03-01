@@ -75,14 +75,28 @@ class TrainingMonitor(BaseLogger):
             plt.figure()
             plt.plot(N, self.H["loss"], label="training loss")
             plt.plot(N, self.H["val_loss"], label="validation loss")
-            plt.plot(N, self.H["accuracy"], label="training accuracy")
-            plt.plot(N, self.H["val_accuracy"], label="validation accuracy")
-            plt.title("Training Loss and Accuracy [Epoch {}]".format(
+            plt.title("Training/Validation Loss [Epoch {}]".format(
                 len(self.H["loss"])))
             plt.xlabel("Epoch #")
-            plt.ylabel("Loss/Accuracy")
+            plt.ylabel("Loss")
             plt.legend()
 
             # save the figure
-            plt.savefig(self.figure_path)
+            plt.savefig(self.figure_path + "_loss.png")
+            plt.close()
+            
+            # Plot the training loss and accuracy
+            N = np.arange(0, len(self.H["loss"]))
+            plt.style.use("ggplot")
+            plt.figure()
+            plt.plot(N, self.H["accuracy"], label="training accuracy")
+            plt.plot(N, self.H["val_accuracy"], label="validation accuracy")
+            plt.title("Training/Validation Accuracy [Epoch {}]".format(
+                len(self.H["loss"])))
+            plt.xlabel("Epoch #")
+            plt.ylabel("Accuracy")
+            plt.legend()
+
+            # save the figure
+            plt.savefig(self.figure_path + "_accuracy.png")
             plt.close()
