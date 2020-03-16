@@ -93,8 +93,8 @@ class TrainingMonitor(BaseLogger):
             N = np.arange(0, len(self.H["loss"]))
             plt.style.use("ggplot")
             plt.figure()
-            plt.plot(N, self.H["acc"], label="training acc")
-            plt.plot(N, self.H["val_acc"], label="validation acc")
+            plt.plot(N, self.H["accuracy"], label="training accuracy")
+            plt.plot(N, self.H["val_accuracy"], label="validation accuracy")
             plt.title("Training/Validation acc [Epoch {}]".format(
                 len(self.H["loss"])))
             plt.xlabel("Epoch #")
