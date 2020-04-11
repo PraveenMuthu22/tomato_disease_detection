@@ -1,3 +1,6 @@
+# Only used in feature extraction
+
+
 # import the necessary packages
 import h5py
 import os
