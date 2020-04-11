@@ -1,7 +1,7 @@
 import imutils
 import cv2
 
-class AspectAwarePreprocessor:
+class resizeImagePreprocessor:
     """
     CONTRUCTOR
     witdh : desired width
