@@ -25,13 +25,13 @@ class resizeImagePreprocessor:
         # if width shorter, resize based on width and crop height
         if w < h:
             image = imutils.resize(image, width=self.width,
-                                   interpolation=self.interpolation)
+                                   inter=self.interpolation)
             dHeight = int((image.shape[0] - self.height) / 2.0)
 
         # if height shorter, resize based on height and crop width
         else:
             image = imutils.resize(image, height=self.height,
-                               interpolation=self.interpolation)
+                               inter=self.interpolation)
             dWeight = int((image.shape[1] - self.width) / 2.0)
 
         (h, w) = image.shape[:2]
