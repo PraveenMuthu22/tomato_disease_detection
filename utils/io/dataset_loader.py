@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 
 
-class SimpleDatasetLoader:
+class DatasetLoader:
     # Method: Constructor
     def __init__(self, preprocessors=None):
         """

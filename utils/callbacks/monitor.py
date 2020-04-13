@@ -5,7 +5,7 @@ import json
 import os
 
 
-class TrainingMonitor(BaseLogger):
+class Monitor(BaseLogger):
     """
     CONSTRUCTOR
     figure_path : path to output plot
@@ -14,7 +14,7 @@ class TrainingMonitor(BaseLogger):
     """
 
     def __init__(self, figure_path, json_path=None, start_epoch=0):
-        super(TrainingMonitor, self).__init__()
+        super(Monitor, self).__init__()
         self.figure_path = figure_path
         self.json_path = json_path
         self.start_epoch = start_epoch
